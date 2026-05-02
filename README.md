@@ -7,17 +7,11 @@ Aviso importante:
 Não espere ouvir nada! O projeto não usa áudio, nem Spotify, nem YouTube. O objetivo da nossa disciplina é entender o que acontece "por baixo do capô" na organização dos dados, e não fazer um player de música completo.  
 
 ## Classe Musica  (musica.py)
-
 Representa uma música no sistema com título, artista, gênero e BPM.
-
 O ID é gerado automaticamente usando uma variável de classe (`_contador_id`), garantindo que não seja reutilizado mesmo após remoção, conforme o requisito do projeto.
-
 O método `__str__` define como a música é exibida ao usar `print()`.
 
 ## Lista Encadeada (Biblioteca) (lista.py)
-
 Representa a estrutura que armazena e organiza as músicas no sistema usando nós ligados entre si. Cada nó guarda uma música e aponta para o próximo, permitindo percorrer a lista do início ao fim.
-
 A classe Biblioteca permite adicionar músicas, listar, buscar por ID ou título, remover e contar elementos. Não utiliza índice, pois o acesso é feito caminhando nó por nó.
-
 O objetivo é entender na prática como funciona uma lista encadeada.
