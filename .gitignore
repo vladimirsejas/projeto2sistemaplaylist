@@ -1,0 +1,18 @@
+# Python cache
+__pycache__/
+*.pyc
+
+# Ambiente virtual (se usar depois)
+venv/
+.env/
+
+# Arquivos do sistema
+.DS_Store
+Thumbs.db
+
+# IDE (VS Code, etc)
+.vscode/
+.idea/
+
+# Logs
+*.log
