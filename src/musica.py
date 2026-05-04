@@ -8,7 +8,13 @@ class Musica:
         self.titulo = titulo
         self.artista = artista
         self.genero = genero
-        self.bpm = bpm
+
+        # validação simples de BPM
+        if bpm <= 0:
+            print("BPM inválido. Será definido como 1.")
+            self.bpm = 1
+        else:
+            self.bpm = bpm
 
     def exibir_dados(self):
         print("ID:", self.id)
