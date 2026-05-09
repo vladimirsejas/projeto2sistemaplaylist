@@ -21,3 +21,20 @@ Fila Encadeada (fila.py)Esse arquivo tem a estrutura que controla a ordem das m�
 Diferente da lista encadeada, que armazena e permite manipular as músicas livremente, a fila tem como objetivo controlar a ordem de execução. Ela segue o modelo FIFO (First In, First Out), ou seja, a primeira música que entra é a primeira a sair. Essa estrutura representa o conceito abstrato de queue, amplamente utilizado em sistemas computacionais para organizar processamento em sequência, como filas de impressão, execução de tarefas e buffers.  A implementação foi feita com nós encadeados (NodoFila), onde cada nó guarda uma música e aponta para o próximo. O acesso é restrito: não há busca nem remoção no meio da estrutura. Toda inserção ocorre no final da fila (enqueue) e toda remoção ocorre no início (dequeue).
 Para isso, a classe mantém dois ponteiros: inicio, que indica a próxima música a ser reproduzida, e fim, que permite inserir novas músicas diretamente no final sem percorrer toda a fila.
 Essa estrutura é utilizada para organizar a ordem de reprodução das músicas por humor (baseado no BPM) e também para registrar o histórico, garantindo que a execução siga uma sequência controlada. A implementação foi realizada manualmente com nós, sem uso de estruturas prontas do Python.
+
+## Controlador (controlador.py)
+
+O arquivo controlador.py funciona como o “cérebro” do sistema. Enquanto a classe Biblioteca guarda as músicas e a Fila controla a ordem de reprodução, o Controlador é responsável pelas regras do programa. É nele que acontece a lógica de separar músicas pelos humores, reproduzir músicas e registrar o histórico.
+Dentro dessa classe, eu criei cinco filas diferentes usando a estrutura Fila. Quatro delas representam os humores baseados no BPM das músicas: relaxar, focar, animar e treinar. A quinta fila é usada para armazenar o histórico das músicas já reproduzidas.
+Quando o usuário escolhe montar as filas de humor, o código percorre toda a biblioteca música por música. Para fazer isso, eu uso um ponteiro chamado atual, que começa no início da lista encadeada e vai caminhando até o final usando atual.proximo. Em cada música, o sistema verifica o BPM e decide em qual fila ela deve entrar.
+Se o BPM for até 80, a música vai para a fila relaxar. Se estiver entre 81 e 120, ela vai para focar. Entre 121 e 160, vai para animar. Acima disso, vai para treinar. Essa separação foi baseada diretamente no enunciado do projeto. Antes de montar novamente as filas, o sistema limpa as filas antigas para evitar músicas duplicadas.
+Na parte de reprodução, o controlador usa o método dequeue da fila escolhida. Isso significa que a música que entrou primeiro será a primeira a sair, seguindo o conceito FIFO (First In, First Out). Depois de reproduzir a música, o sistema coloca essa mesma música dentro da fila de histórico usando enqueue, mantendo a ordem em que elas tocaram.
+Também implementei verificações para evitar erros. Se o usuário tentar montar filas com a biblioteca vazia, o sistema mostra uma mensagem avisando. O mesmo acontece se tentar reproduzir uma música de uma fila vazia.
+Na parte de estatísticas, o controlador percorre manualmente tanto a lista encadeada quanto as filas para contar quantos elementos existem em cada estrutura. Isso foi feito sem usar funções prontas do Python, justamente para praticar o funcionamento interno das estruturas encadeadas.
+O objetivo dessa classe foi centralizar as regras do sistema em um único lugar, deixando o código mais organizado e separando responsabilidades. Assim, cada arquivo do projeto tem uma função específica dentro do sistema.
+
+
+
+
+
+
