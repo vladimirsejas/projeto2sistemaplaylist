@@ -1,4 +1,4 @@
-```python
+
 from src.musica import Musica
 from src.lista import Biblioteca
 from src.controlador import Controlador
@@ -180,4 +180,4 @@ def main():
 
 if __name__ == "__main__":
     main()
-```
+
