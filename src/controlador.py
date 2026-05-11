@@ -1,149 +1,100 @@
-from src.musica import Musica
-from src.lista import Biblioteca
-from src.controlador import Controlador
+from src.fila import Fila
 
 
-def menu():
-    print("\n===== SISTEMA DE PLAYLIST =====")
-    print("1. Adicionar música à biblioteca")
-    print("2. Remover música da biblioteca")
-    print("3. Buscar música")
-    print("4. Listar biblioteca completa")
-    print("5. Montar filas de reprodução por humor")
-    print("6. Reproduzir próxima música")
-    print("7. Exibir fila de humor")
-    print("8. Exibir histórico de reproduções")
-    print("9. Estatísticas")
-    print("10. Sair")
-    print("================================")
+class Controlador:
+    def __init__(self):
+        # filas de reprodução por humor
+        self.relaxar = Fila()
+        self.focar = Fila()
+        self.animar = Fila()
+        self.treinar = Fila()
+        # fila de histórico
+        self.historico = Fila()
 
+    # limpa completamente uma fila
+    def limpar_fila(self, fila):
+        while not fila.esta_vazia():
+            fila.dequeue()
 
-def escolher_fila(controlador):
-    print("\nEscolha a fila de humor:")
-    print("1. Relaxar (até 80 BPM)")
-    print("2. Focar (81-120 BPM)")
-    print("3. Animar (121-160 BPM)")
-    print("4. Treinar (acima de 160 BPM)")
+    # opção 5: monta as filas de humor com base no BPM
+    def montar_filas(self, biblioteca):
+        if biblioteca.inicio is None:
+            print("Biblioteca vazia. Adicione músicas antes de montar as filas.")
+            return
 
-    opcao = input("Opção: ").strip()
+        # limpa filas anteriores antes de remontar
+        self.limpar_fila(self.relaxar)
+        self.limpar_fila(self.focar)
+        self.limpar_fila(self.animar)
+        self.limpar_fila(self.treinar)
 
-    if opcao == "1":
-        return controlador.relaxar, "Relaxar"
-    elif opcao == "2":
-        return controlador.focar, "Focar"
-    elif opcao == "3":
-        return controlador.animar, "Animar"
-    elif opcao == "4":
-        return controlador.treinar, "Treinar"
-    else:
-        print("Opção inválida.")
-        return None, None
-
-
-def main():
-    biblioteca = Biblioteca()
-    controlador = Controlador()
-
-    while True:
-        menu()
-        opcao = input("Escolha uma opção: ").strip()
-
-        # 1 — adicionar música
-        if opcao == "1":
-            titulo = input("Título: ").strip()
-            artista = input("Artista: ").strip()
-            genero = input("Gênero: ").strip()
-
-            try:
-                bpm = int(input("BPM: ").strip())
-            except ValueError:
-                print("BPM inválido. Digite um número inteiro.")
-                continue
-
-            musica = Musica(titulo, artista, genero, bpm)
-            biblioteca.adicionar(musica)
-            print(f"Música '{titulo}' adicionada com ID {musica.id}.")
-
-        # 2 — remover música
-        elif opcao == "2":
-            try:
-                id_remover = int(input("ID da música a remover: ").strip())
-            except ValueError:
-                print("ID inválido. Digite um número inteiro.")
-                continue
-
-            removida = biblioteca.remover(id_remover)
-            if removida:
-                print(f"Música com ID {id_remover} removida com sucesso.")
+        atual = biblioteca.inicio
+        while atual is not None:
+            bpm = atual.musica.bpm
+            if bpm <= 80:
+                self.relaxar.enqueue(atual.musica)
+            elif bpm <= 120:
+                self.focar.enqueue(atual.musica)
+            elif bpm <= 160:
+                self.animar.enqueue(atual.musica)
             else:
-                print(f"Nenhuma música encontrada com ID {id_remover}.")
+                self.treinar.enqueue(atual.musica)
+            atual = atual.proximo
 
-        # 3 — buscar música
-        elif opcao == "3":
-            print("Buscar por:")
-            print("1. ID")
-            print("2. Título")
-            tipo = input("Opção: ").strip()
+        print("Filas de humor montadas com sucesso!")
 
-            if tipo == "1":
-                try:
-                    id_busca = int(input("ID: ").strip())
-                except ValueError:
-                    print("ID inválido.")
-                    continue
-                musica = biblioteca.buscar_por_id(id_busca)
+    # opção 6: reproduz a próxima música da fila escolhida
+    def reproduzir(self, fila):
+        musica = fila.dequeue()
+        if musica is None:
+            print("Fila vazia. Nenhuma música para reproduzir.")
+            return
 
-            elif tipo == "2":
-                titulo_busca = input("Título: ").strip()
-                musica = biblioteca.buscar_por_titulo(titulo_busca)
+        print("\n--- REPRODUZINDO AGORA ---")
+        musica.exibir_dados()
+        # envia música reproduzida para o histórico
+        self.historico.enqueue(musica)
 
-            else:
-                print("Opção inválida.")
-                continue
+    # opção 7: exibe uma fila sem remover elementos
+    def exibir_fila(self, fila, nome_fila):
+        print(f"\n--- FILA {nome_fila.upper()} ---")
+        if fila.esta_vazia():
+            print("Fila vazia.")
+            return
+        fila.listar()
 
-            if musica:
-                print("\n--- MÚSICA ENCONTRADA ---")
-                musica.exibir_dados()
-            else:
-                print("Música não encontrada.")
+    # opção 8: exibe o histórico de reproduções
+    def exibir_historico(self):
+        print("\n--- HISTÓRICO DE REPRODUÇÕES ---")
+        if self.historico.esta_vazia():
+            print("Nenhuma música foi reproduzida ainda.")
+            return
+        self.historico.listar()
 
-        # 4 — listar biblioteca
-        elif opcao == "4":
-            print("\n--- BIBLIOTECA COMPLETA ---")
-            biblioteca.listar()
+    # opção 9: estatísticas gerais do sistema
+    def estatisticas(self, biblioteca):
+        print("\n--- ESTATÍSTICAS DO SISTEMA ---")
+        print("Total de músicas na biblioteca:", self.contar_lista(biblioteca))
+        print("Fila Relaxar (até 80 BPM):", self.contar_fila(self.relaxar))
+        print("Fila Focar (81-120 BPM):", self.contar_fila(self.focar))
+        print("Fila Animar (121-160 BPM):", self.contar_fila(self.animar))
+        print("Fila Treinar (acima de 160 BPM):", self.contar_fila(self.treinar))
+        print("Total de músicas reproduzidas:", self.contar_fila(self.historico))
 
-        # 5 — montar filas por humor
-        elif opcao == "5":
-            controlador.montar_filas(biblioteca)
+    # conta elementos da lista encadeada (biblioteca)
+    def contar_lista(self, biblioteca):
+        contagem = 0
+        atual = biblioteca.inicio
+        while atual is not None:
+            contagem = contagem + 1
+            atual = atual.proximo
+        return contagem
 
-        # 6 — reproduzir próxima
-        elif opcao == "6":
-            fila, nome = escolher_fila(controlador)
-            if fila is not None:
-                controlador.reproduzir(fila)
-
-        # 7 — exibir fila de humor
-        elif opcao == "7":
-            fila, nome = escolher_fila(controlador)
-            if fila is not None:
-                controlador.exibir_fila(fila, nome)
-
-        # 8 — histórico
-        elif opcao == "8":
-            controlador.exibir_historico()
-
-        # 9 — estatísticas
-        elif opcao == "9":
-            controlador.estatisticas(biblioteca)
-
-        # 10 — sair
-        elif opcao == "10":
-            print("Encerrando o sistema. Até mais!")
-            break
-
-        else:
-            print("Opção inválida. Digite um número de 1 a 10.")
-
-
-if __name__ == "__main__":
-    main()
+    # conta elementos de uma fila percorrendo os nós
+    def contar_fila(self, fila):
+        contagem = 0
+        atual = fila.inicio
+        while atual is not None:
+            contagem = contagem + 1
+            atual = atual.proximo
+        return contagem
