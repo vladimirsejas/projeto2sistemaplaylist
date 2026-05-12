@@ -45,6 +45,21 @@ Os testes confirmaram que as músicas são distribuídas corretamente entre as f
 O objetivo principal do main.py foi manter o sistema organizado e separado em responsabilidades. Enquanto as estruturas encadeadas cuidam do armazenamento e da manipulação dos dados, o menu principal atua apenas como interface de comunicação com o usuário. Essa divisão ajuda a tornar o código mais limpo, modularizado e mais próximo da organização utilizada em sistemas reais.
 
 
+## Menu Principal
+
+<img src="assets/menu-principal.png" width="700">
+
+
+## Estatísticas por BPM
+
+<img src="assets/estatisticas-bpm.png" width="700">
+
+
+## Histórico de Reproduções
+
+<img src="assets/historico-reproducao.png" width="700">
+
+
 
 
 
