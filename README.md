@@ -60,3 +60,15 @@ O objetivo principal do main.py foi manter o sistema organizado e separado em re
 ## Estatísticas por BPM
 
 <img src="assets/estatisticas-bpm.png" width="700">
+
+
+## Testes Automatizados
+
+O projeto também possui testes automatizados utilizando a biblioteca unittest do Python. Esses testes foram criados para validar o funcionamento das principais estruturas e regras do sistema sem alterar o código principal da aplicação. O objetivo foi garantir que as funcionalidades continuassem funcionando corretamente mesmo após modificações futuras no projeto.
+Os testes foram implementados separadamente dentro da pasta tests, mantendo independência total em relação ao fluxo normal do programa. Isso significa que o sistema principal continua funcionando normalmente mesmo sem executar os testes.
+Durante os testes automatizados, foram verificadas funcionalidades essenciais do projeto, como o comportamento FIFO da fila encadeada, a classificação correta das músicas por BPM, o armazenamento do histórico de reproduções e o tratamento de filas vazias.
+O teste FIFO confirmou que a primeira música adicionada à fila é a primeira música removida, validando corretamente o conceito First In, First Out. Também foi verificado que músicas com BPM adequado são direcionadas corretamente para suas respectivas filas de humor. Além disso, os testes confirmaram que o histórico mantém a ordem cronológica das músicas reproduzidas e que filas vazias são tratadas sem causar falhas no sistema.
+A utilização de testes automatizados ajuda a aumentar a confiabilidade do projeto, facilitando futuras manutenções e permitindo validar rapidamente se alterações no código quebraram funcionalidades importantes do sistema.
+## Execução dos Testes
+
+<img src="assets/TESTE.png" width="700">
