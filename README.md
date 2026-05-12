@@ -49,19 +49,14 @@ O objetivo principal do main.py foi manter o sistema organizado e separado em re
 
 <img src="assets/menu-principal.png" width="700">
 
+## Fila de Humor
 
-## Estatísticas por BPM
-
-<img src="assets/estatisticas-bpm.png" width="700">
-
+<img src="assets/historico-fila.png" width="700">
 
 ## Histórico de Reproduções
 
 <img src="assets/historico-reproducao.png" width="700">
 
+## Estatísticas por BPM
 
-
-
-
-
-
+<img src="assets/estatisticas-bpm.png" width="700">
