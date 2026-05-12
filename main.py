@@ -1,4 +1,3 @@
-
 from src.musica import Musica
 from src.lista import Biblioteca
 from src.controlador import Controlador
@@ -71,6 +70,9 @@ def main():
 
             biblioteca.adicionar(musica)
 
+            # atualiza automaticamente as filas
+            controlador.montar_filas(biblioteca)
+
             print(f"Música adicionada com ID {musica.id}.")
 
         # opção 2 — remover música
@@ -86,6 +88,10 @@ def main():
             removida = biblioteca.remover(id_remover)
 
             if removida:
+
+                # reconstrói as filas após remover
+                controlador.montar_filas(biblioteca)
+
                 print("Música removida com sucesso.")
 
             else:
@@ -180,4 +186,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
