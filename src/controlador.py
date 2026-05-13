@@ -11,12 +11,12 @@ class Controlador:
         # fila de histórico
         self.historico = Fila()
 
-    # limpa completamente uma fila
+   
     def limpar_fila(self, fila):
         while not fila.esta_vazia():
             fila.dequeue()
 
-    # opção 5: monta as filas de humor com base no BPM
+    
     def montar_filas(self, biblioteca):
         if biblioteca.inicio is None:
             print("Biblioteca vazia. Adicione músicas antes de montar as filas.")
@@ -43,7 +43,7 @@ class Controlador:
 
         print("Filas de humor montadas com sucesso!")
 
-    # opção 6: reproduz a próxima música da fila escolhida
+    # reproduz a próxima música da fila escolhida
     def reproduzir(self, fila):
         musica = fila.dequeue()
         if musica is None:
@@ -55,7 +55,7 @@ class Controlador:
         # envia música reproduzida para o histórico
         self.historico.enqueue(musica)
 
-    # opção 7: exibe uma fila sem remover elementos
+    # exibe uma fila sem remover elementos
     def exibir_fila(self, fila, nome_fila):
         print(f"\n--- FILA {nome_fila.upper()} ---")
         if fila.esta_vazia():
@@ -63,7 +63,7 @@ class Controlador:
             return
         fila.listar()
 
-    # opção 8: exibe o histórico de reproduções
+    # exibe o histórico de reproduções
     def exibir_historico(self):
         print("\n--- HISTÓRICO DE REPRODUÇÕES ---")
         if self.historico.esta_vazia():
@@ -71,7 +71,7 @@ class Controlador:
             return
         self.historico.listar()
 
-    # opção 9: estatísticas gerais do sistema
+    #  estatísticas gerais do sistema
     def estatisticas(self, biblioteca):
         print("\n--- ESTATÍSTICAS DO SISTEMA ---")
         print("Total de músicas na biblioteca:", self.contar_lista(biblioteca))
