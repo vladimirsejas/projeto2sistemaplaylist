@@ -2,6 +2,9 @@ from src.musica import Musica
 from src.lista import Biblioteca
 from src.controlador import Controlador
 
+from faker import Faker
+import random
+
 
 def menu():
     print("\n===== SISTEMA DE PLAYLIST =====")
@@ -15,6 +18,7 @@ def menu():
     print("8. Exibir histórico de reproduções")
     print("9. Estatísticas")
     print("10. Sair")
+    print("11. Popular biblioteca automaticamente")
     print("================================")
 
 
@@ -44,17 +48,54 @@ def escolher_fila(controlador):
         return None, None
 
 
+def popular_fake(biblioteca, controlador, quantidade=20):
+
+    fake = Faker("pt_BR")
+
+    generos = [
+        "Rock",
+        "Pop",
+        "Eletrônica",
+        "Jazz",
+        "Hip Hop",
+        "MPB",
+        "Lo-fi"
+    ]
+
+    for _ in range(quantidade):
+
+        titulo = fake.sentence(nb_words=3).replace(".", "")
+        artista = fake.name()
+        genero = random.choice(generos)
+
+        bpm = random.randint(60, 190)
+
+        musica = Musica(
+            titulo,
+            artista,
+            genero,
+            bpm
+        )
+
+        biblioteca.adicionar(musica)
+
+    print(f"{quantidade} músicas criadas automaticamente.")
+
+
 def main():
+
     biblioteca = Biblioteca()
     controlador = Controlador()
 
     while True:
+
         menu()
 
         opcao = input("Escolha uma opção: ").strip()
 
         # opção 1 — adicionar música
         if opcao == "1":
+
             titulo = input("Título: ").strip()
             artista = input("Artista: ").strip()
             genero = input("Gênero: ").strip()
@@ -70,7 +111,6 @@ def main():
 
             biblioteca.adicionar(musica)
 
-            # atualiza automaticamente as filas
             controlador.montar_filas(biblioteca)
 
             print(f"Música adicionada com ID {musica.id}.")
@@ -89,7 +129,6 @@ def main():
 
             if removida:
 
-                # reconstrói as filas após remover
                 controlador.montar_filas(biblioteca)
 
                 print("Música removida com sucesso.")
@@ -180,8 +219,26 @@ def main():
             print("Encerrando o sistema...")
             break
 
+        # opção 11 — popular automaticamente
+        elif opcao == "11":
+
+            try:
+                quantidade = int(input("Quantidade de músicas fake: ").strip())
+
+            except ValueError:
+                print("Digite um número válido.")
+                continue
+
+            popular_fake(
+                biblioteca,
+                controlador,
+                quantidade
+            )
+        elif opcao == '0':
+            break
+
         else:
-            print("Opção inválida. Digite um número de 1 a 10.")
+            print("Opção inválida. Digite um número de 1 a 11.")
 
 
 if __name__ == "__main__":
